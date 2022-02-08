@@ -11,7 +11,7 @@ html {
 
 body {
     margin: 0;
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     gap: 0 1rem;
     color: #1a1a1a;
 }
@@ -209,7 +209,7 @@ button {
 .text-btn {
     padding: 0 1rem;
     height: 3rem;
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 1.25rem;
     font-weight: 500;
     letter-spacing: 1.25px;
@@ -325,6 +325,7 @@ input[type="checkbox"] {
 .digit-input {
     box-sizing: content-box;
     width: 2ch;
+    font-family: 'Roboto', sans-serif;
     font-size: 4.5rem;
     text-align: center;
     border-radius: 1rem;
