@@ -2,11 +2,11 @@
 
 let alarmSound, timerSound, mainContentArea, body, pageId, timeZoneRefreshFrame, layerView, alarmAlertLayer, removeAlarmAlert, timerAlertLayer, removeTimerAlert, vibrationInterval;
 
-// alarmSound = new Audio('clock_sounds/alarm_sound.mp3');
-// alarmSound.loop = true;
+alarmSound = new Audio('clock_sounds/alarm_sound.mp3');
+alarmSound.loop = true;
 
-// timerSound = new Audio('clock_sounds/timer_sound.mp3');
-// timerSound.loop = true;
+timerSound = new Audio('clock_sounds/timer_sound.mp3');
+timerSound.loop = true;
 
 function alertVibrationPattern() {
   navigator.vibrate([1000, 1000]);
@@ -46,19 +46,15 @@ function loadPageResources() {
   alarmStorage = JSON.parse(sessionStorage.getItem('alarms'));
   timerStorage = JSON.parse(sessionStorage.getItem('timer'));
 
-  alarmSound = new Audio('clock_sounds/alarm_sound.mp3');
-  alarmSound.loop = true;
-
-  timerSound = new Audio('clock_sounds/timer_sound.mp3');
-  timerSound.loop = true;
-
   if (alarmStorage && alarmStorage.length) {
     alarmStorage.forEach((item) => {
       alarms.push(item);
     });
   
     alarms.forEach((item) =>{
-      item.timeout = generateAlarmTimeout.call(item);
+      if (item.state === 'on') {
+        item.timeout = generateAlarmTimeout.call(item);
+      }
     });
   }
 
@@ -67,7 +63,9 @@ function loadPageResources() {
       timer[keys] = timerStorage[keys];
     }
     
-    timer.timeout = generateTimerTimeout.call(timer);
+    if (timer.state === 'play') {
+      timer.timeout = generateTimerTimeout.call(timer);
+    }
   }
 
   body.removeEventListener('click', loadPageResources, true);
@@ -513,13 +511,21 @@ function renderWorldClock() {
   layerBtn = document.querySelectorAll('.remove-btn, .add-btn');
 
   function layerBtnEvent(e) {
-    if (e.path[1].classList.contains('add-btn')) {
-      timezones[e.path[3].id][2] = 'show';
+    let btnElement, entryElement;
+
+    btnElement = e.target.parentElement;
+    entryElement = e.target.parentElement.parentElement.parentElement;
+
+    if (btnElement.classList.contains('add-btn')) {
+      timezones[entryElement.id][2] = 'show';
     } else {
-      timezones[e.path[3].id][2] = 'hide';
+      timezones[entryElement.id][2] = 'hide';
     }
+
     createTimeZones();
+
     layerBtn = document.querySelectorAll('.remove-btn, .add-btn');
+
     layerBtn.forEach((item) => {
       item.addEventListener('click', layerBtnEvent);
     });
@@ -642,7 +648,6 @@ function renderAlarm() {
       }
     });
 
-    setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
     addAlarmLayer.style.marginTop = '40vh';
     layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
     hourInput.value = '00';
@@ -909,7 +914,6 @@ function renderAlarm() {
 
         alarmName.value = (arrayObject.label === 'Alarm') ? '' : arrayObject.label
 
-        setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
         addAlarmLayer.style.marginTop = '40vh';
         layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
       });
@@ -1234,7 +1238,6 @@ function renderTimer() {
     timerMinuteInput.value = '10';
     timerSecondInput.value = '00';
 
-    timerHourInput.focus();
   } else if (timer.state === 'play') {
     addTimerTime.style.display = 'none';
 
