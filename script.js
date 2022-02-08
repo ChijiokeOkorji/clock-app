@@ -2,11 +2,11 @@
 
 let alarmSound, timerSound, mainContentArea, body, pageId, timeZoneRefreshFrame, layerView, alarmAlertLayer, removeAlarmAlert, timerAlertLayer, removeTimerAlert, vibrationInterval;
 
-alarmSound = new Audio('clock_sounds/alarm_sound.mp3');
-alarmSound.loop = true;
+// alarmSound = new Audio('clock_sounds/alarm_sound.mp3');
+// alarmSound.loop = true;
 
-timerSound = new Audio('clock_sounds/timer_sound.mp3');
-timerSound.loop = true;
+// timerSound = new Audio('clock_sounds/timer_sound.mp3');
+// timerSound.loop = true;
 
 function alertVibrationPattern() {
   navigator.vibrate([1000, 1000]);
@@ -46,7 +46,13 @@ function loadPageResources() {
   alarmStorage = JSON.parse(sessionStorage.getItem('alarms'));
   timerStorage = JSON.parse(sessionStorage.getItem('timer'));
 
-  if (alarmStorage.length) {
+  alarmSound = new Audio('clock_sounds/alarm_sound.mp3');
+  alarmSound.loop = true;
+
+  timerSound = new Audio('clock_sounds/timer_sound.mp3');
+  timerSound.loop = true;
+
+  if (alarmStorage && alarmStorage.length) {
     alarmStorage.forEach((item) => {
       alarms.push(item);
     });
@@ -56,10 +62,12 @@ function loadPageResources() {
     });
   }
 
-  if (timerStorage.startTime) {
+  if (timerStorage && timerStorage.startTime) {
     for (let keys in timerStorage) {
       timer[keys] = timerStorage[keys];
     }
+    
+    timer.timeout = generateTimerTimeout.call(timer);
   }
 
   body.removeEventListener('click', loadPageResources, true);
@@ -93,66 +101,66 @@ function alarmSetSessionStorage() {
   sessionStorage.setItem('alarms', JSON.stringify(alarmsTemp));
 }
 
+function alarmAlertLayout() {
+  alarmAlertLayer = document.createElement('div');
+  alarmAlertLayer.setAttribute('id', 'alarm-alert-layer');
+  alarmAlertLayer.setAttribute('class', 'alert-layer');
+
+  layerView.insertBefore(alarmAlertLayer, layerView.childNodes[0]);
+
+  alarmAlertLayer.innerHTML = `
+  <div id="alarm-label-text" class="alert-text"></div>
+
+  <button id="alarm-alert-stop" class="text-btn solid-btn">STOP</button>
+  `;
+}
+
+function alarmStopBtnEvent() {
+  let currentAlarmLabel = alarmAlertLayer.querySelector('#alarm-label-text').textContent;
+
+  if (pageId === 'clock-main') {
+    clearInterval(timeZoneRefreshFrame);
+    renderWorldClock();
+  } else if (pageId === 'alarm-main') {
+    renderAlarm();
+  } else if (pageId === 'stopwatch-main') {
+    renderStopwatch();
+  } else {
+    renderTimer();
+  }
+
+  alarmAlertLayout();
+
+  document.querySelector('#alarm-alert-stop').addEventListener('click', alarmStopBtnEvent);
+
+  alarmAlertLayer.querySelector('#alarm-label-text').textContent = currentAlarmLabel;
+  layerView.style.zIndex = 999;
+
+  alarmAlertLayer.style.cssText = 'margin-bottom: 0;';
+
+  requestAnimationFrame(() => {
+    alarmAlertLayer.style.cssText = 'margin-bottom: 100vh;';
+  });
+
+  alarmSound.pause();
+  alarmSound.currentTime = 0;
+
+  if (navigator.vibrate) {
+    clearInterval(vibrationInterval);
+    navigator.vibrate(0);
+  }
+
+  removeAlarmAlert = setTimeout(() => {
+    layerView.style.zIndex = 0;
+    alarmAlertLayer.remove();
+  }, parseFloat(getComputedStyle(alarmAlertLayer).transitionDuration) * 1000);
+}
+
 function alarmAlertFormat() {
   clearTimeout(removeAlarmAlert);
 
-  function alarmAlertLayout() {
-    alarmAlertLayer = document.createElement('div');
-    alarmAlertLayer.setAttribute('id', 'alarm-alert-layer');
-    alarmAlertLayer.setAttribute('class', 'alert-layer');
-
-    layerView.insertBefore(alarmAlertLayer, layerView.childNodes[0]);
-
-    alarmAlertLayer.innerHTML = `
-    <div id="alarm-label-text" class="alert-text"></div>
-  
-    <button id="alarm-alert-stop" class="text-btn solid-btn">Stop</button>
-    `;
-  }
-
   if (!(document.querySelector('#alarm-alert-layer'))) {
     alarmAlertLayout();
-
-    function alarmStopBtnEvent() {
-      let currentAlarmLabel = alarmAlertLayer.querySelector('#alarm-label-text').textContent;
-
-      if (pageId === 'clock-main') {
-        clearInterval(timeZoneRefreshFrame);
-        renderWorldClock();
-      } else if (pageId === 'alarm-main') {
-        renderAlarm();
-      } else if (pageId === 'stopwatch-main') {
-        renderStopwatch();
-      } else {
-        renderTimer();
-      }
-
-      alarmAlertLayout();
-
-      document.querySelector('#alarm-alert-stop').addEventListener('click', alarmStopBtnEvent);
-
-      alarmAlertLayer.querySelector('#alarm-label-text').textContent = currentAlarmLabel;
-      layerView.style.zIndex = 999;
-
-      alarmAlertLayer.style.cssText = 'margin-bottom: 0;';
-
-      requestAnimationFrame(() => {
-        alarmAlertLayer.style.cssText = 'margin-bottom: 100vh;';
-      });
-
-      alarmSound.pause();
-      alarmSound.currentTime = 0;
-
-      if (navigator.vibrate) {
-        clearInterval(vibrationInterval);
-        navigator.vibrate(0);
-      }
-
-      removeAlarmAlert = setTimeout(() => {
-        layerView.style.zIndex = 0;
-        alarmAlertLayer.remove();
-      }, parseFloat(getComputedStyle(alarmAlertLayer).transitionDuration) * 1000);
-    }
 
     document.querySelector('#alarm-alert-stop').addEventListener('click', alarmStopBtnEvent);
   }
@@ -276,21 +284,21 @@ function timerSetSessionStorage() {
   sessionStorage.setItem('timer', JSON.stringify(timerTemp));
 }
 
+function timerAlertLayout() {
+  timerAlertLayer = document.createElement('div');
+  timerAlertLayer.setAttribute('id', 'timer-alert-layer');
+  timerAlertLayer.setAttribute('class', 'alert-layer');
+
+  layerView.insertBefore(timerAlertLayer, layerView.childNodes[0]);
+
+  timerAlertLayer.innerHTML = `
+  <div id="timer-label-text" class="alert-text"></div>
+
+  <button id="timer-alert-stop" class="text-btn solid-btn">STOP</button>
+  `;
+}
+
 function timerAlertFormat() {
-  function timerAlertLayout() {
-    timerAlertLayer = document.createElement('div');
-    timerAlertLayer.setAttribute('id', 'timer-alert-layer');
-    timerAlertLayer.setAttribute('class', 'alert-layer');
-
-    layerView.insertBefore(timerAlertLayer, layerView.childNodes[0]);
-
-    timerAlertLayer.innerHTML = `
-    <div id="timer-label-text" class="alert-text"></div>
-  
-    <button id="timer-alert-stop" class="text-btn solid-btn">Stop</button>
-    `;
-  }
-
   timerAlertLayout();
 
   document.querySelector('#timer-alert-stop').addEventListener('click', (e) => {
@@ -353,18 +361,22 @@ function timerAlertFormat() {
   requestAnimationFrame(() => {
     timerAlertLayer.style.cssText = 'margin-bottom: 0;';
   });
+
+  delete this.endTime;
+  delete this.startTime;
+  delete this.totalTime;
+  delete this.timeout;
+  delete this.state;
+
+  timerSetSessionStorage();
 }
 
 function generateTimerTimeout() {
-  timer.timeout = setTimeout(() => {
-    delete timer.endTime;
-    delete timer.startTime;
-    delete timer.totalTime;
-    delete timer.timeout;
-    delete timer.state;
+  let difference = this.endTime - Date.now();
 
-    timerAlertFormat();
-  }, (timer.endTime - timer.startTime));
+  return setTimeout(() => {
+    timerAlertFormat.call(timer);
+  }, difference);
 }
 
 function renderWorldClock() {
@@ -377,7 +389,7 @@ function renderWorldClock() {
         <div class="layer-head">
           <div class="layer-heading">My Timezones</div>
   
-          <div id="clock-done-btn" class="heading-btn btn-right">Done</div>
+          <div id="clock-done-btn" class="heading-btn btn-right">DONE</div>
         </div>
   
         <div class="layer-content">
@@ -391,7 +403,7 @@ function renderWorldClock() {
     </div>
   
     <div class="head-layer">
-      <button id="clock-edit-btn" class="text-btn">Edit</button>
+      <button id="clock-edit-btn" class="text-btn">EDIT</button>
     </div>
   
     <div id="date-time" class="section">
@@ -539,11 +551,11 @@ function renderAlarm() {
     <div class="layer-view">
       <div id="add-alarm-layer" class="layer-overlay alarm-timer-layer">
         <div class="layer-head edit-head">
-          <div id="add-alarm-cancel" class="heading-btn btn-left">Cancel</div>
+          <div id="add-alarm-cancel" class="heading-btn btn-left">CANCEL</div>
   
           <div class="layer-heading">Add Alarm</div>
   
-          <div id="add-alarm-done" class="heading-btn btn-right">Done</div>
+          <div id="add-alarm-done" class="heading-btn btn-right">DONE</div>
         </div>
   
         <div id="add-alarm-time" class="edit-time">
@@ -577,9 +589,9 @@ function renderAlarm() {
     </div>
   
     <div class="head-layer">
-      <button id="alarm-edit-btn" class="text-btn heading-btn btn-left">Edit</button>
+      <button id="alarm-edit-btn" class="text-btn heading-btn btn-left">EDIT</button>
       
-      <button id="edit-alarm-done" class="text-btn solid-btn btn-center">Done</button>
+      <button id="edit-alarm-done" class="text-btn solid-btn btn-center">DONE</button>
 
       <button id="alarm-add-btn" class="icon-btn heading-btn btn-right"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjQgMTBoLTEwdi0xMGgtNHYxMGgtMTB2NGgxMHYxMGg0di0xMGgxMHoiLz48L3N2Zz4="></button>
     </div>
@@ -969,9 +981,9 @@ function renderStopwatch() {
         </div>
 
         <div id="stopwatch-btns" class="head-layer">
-          <button id="stopwatch-lap-reset-btn" class="text-btn solid-btn">Lap</button>
+          <button id="stopwatch-lap-reset-btn" class="text-btn solid-btn">LAP</button>
 
-          <button id="stopwatch-state-btn" class="text-btn solid-btn">Start</button>
+          <button id="stopwatch-state-btn" class="text-btn solid-btn">START</button>
         </div>
       
         <div class="lap-area">
@@ -1045,7 +1057,7 @@ function renderStopwatch() {
     stopwatchLapResetBtn.style.backgroundColor = '#1a1a1a';
     stopwatchStateBtn.style.backgroundColor = '#d60000';
 
-    stopwatchStateBtn.textContent = 'Stop';
+    stopwatchStateBtn.textContent = 'STOP';
   } else if (stopwatch.state === 'pause') {
     stopwatchTime.textContent = formatTime(stopwatch.elapsedTime);
 
@@ -1062,7 +1074,7 @@ function renderStopwatch() {
     stopwatchLapResetBtn.style.backgroundColor = '#1a1a1a';
     stopwatchStateBtn.style.backgroundColor = '#00b800';
 
-    stopwatchLapResetBtn.textContent = 'Reset';
+    stopwatchLapResetBtn.textContent = 'RESET';
   }
 
   function startPauseStopwatch () {
@@ -1079,8 +1091,8 @@ function renderStopwatch() {
       stopwatchLapResetBtn.style.backgroundColor = '#1a1a1a';
       stopwatchStateBtn.style.backgroundColor = '#d60000';
 
-      stopwatchLapResetBtn.textContent = 'Lap';
-      stopwatchStateBtn.textContent = 'Stop';
+      stopwatchLapResetBtn.textContent = 'LAP';
+      stopwatchStateBtn.textContent = 'STOP';
     } else {
       cancelAnimationFrame(stopwatchRefreshFrame);
 
@@ -1091,8 +1103,8 @@ function renderStopwatch() {
 
       stopwatchStateBtn.style.backgroundColor = '#00b800';
 
-      stopwatchLapResetBtn.textContent = 'Reset';
-      stopwatchStateBtn.textContent = 'Start';
+      stopwatchLapResetBtn.textContent = 'RESET';
+      stopwatchStateBtn.textContent = 'START';
     }
 
     sessionStorage.setItem('stopwatch', JSON.stringify(stopwatch));
@@ -1151,7 +1163,7 @@ function renderStopwatch() {
 
       lapSaves.innerHTML = '';
       stopwatchLapResetBtn.style.backgroundColor = '#5c5c5c';
-      stopwatchLapResetBtn.textContent = 'Lap';
+      stopwatchLapResetBtn.textContent = 'LAP';
     }
 
     sessionStorage.setItem('stopwatch', JSON.stringify(stopwatch));
@@ -1184,9 +1196,9 @@ function renderTimer() {
         </div>
       
         <div id="timer-btns" class="head-layer">
-          <button id="timer-cancel-btn" class="text-btn solid-btn">Cancel</button>
+          <button id="timer-cancel-btn" class="text-btn solid-btn">CANCEL</button>
       
-          <button id="timer-start-pause-btn" class="text-btn solid-btn">Start</button>
+          <button id="timer-start-pause-btn" class="text-btn solid-btn">START</button>
         </div>
       </div>
     </div>
@@ -1233,7 +1245,7 @@ function renderTimer() {
     timerCancelBtn.style.backgroundColor = '#1a1a1a';
     timerStartPauseBtn.style.backgroundColor = '#1470eb';
 
-    timerStartPauseBtn.textContent = 'Pause';
+    timerStartPauseBtn.textContent = 'PAUSE';
   } else if (timer.state === 'pause') {
     addTimerTime.style.display = 'none';
 
@@ -1245,7 +1257,7 @@ function renderTimer() {
     timerCancelBtn.style.backgroundColor = '#1a1a1a';
     timerStartPauseBtn.style.backgroundColor = '#00b800';
 
-    timerStartPauseBtn.textContent = 'Resume';
+    timerStartPauseBtn.textContent = 'RESUME';
   }
 
   function timerDigitInputFocus (e) {
@@ -1362,7 +1374,7 @@ function renderTimer() {
       
       timerRefreshFrame = requestAnimationFrame(refreshTimer);
 
-      generateTimerTimeout();
+      timer.timeout = generateTimerTimeout.call(timer);
 
       timer.state = 'play';
       
@@ -1374,7 +1386,7 @@ function renderTimer() {
       timerCancelBtn.style.backgroundColor = '#1a1a1a';
       timerStartPauseBtn.style.backgroundColor = '#1470eb';
 
-      timerStartPauseBtn.textContent = 'Pause';
+      timerStartPauseBtn.textContent = 'PAUSE';
     } else if (timer.state === 'play') {
       cancelAnimationFrame(timerRefreshFrame);
 
@@ -1389,7 +1401,7 @@ function renderTimer() {
 
       timerStartPauseBtn.style.backgroundColor = '#00b800';
 
-      timerStartPauseBtn.textContent = 'Resume';
+      timerStartPauseBtn.textContent = 'RESUME';
     } else if (timer.state === 'pause') {
       timer.startTime = new Date().getTime();
 
@@ -1397,7 +1409,7 @@ function renderTimer() {
 
       timerRefreshFrame = requestAnimationFrame(refreshTimer);
 
-      generateTimerTimeout();
+      timer.timeout = generateTimerTimeout.call(timer);
 
       timer.state = 'play';
 
@@ -1405,7 +1417,7 @@ function renderTimer() {
 
       timerStartPauseBtn.style.backgroundColor = '#1470eb';
 
-      timerStartPauseBtn.textContent = 'Pause';
+      timerStartPauseBtn.textContent = 'PAUSE';
     }
 
     timerSetSessionStorage();
