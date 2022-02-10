@@ -84,6 +84,10 @@ body {
     overflow-y: scroll;
     transition: margin 0.5s ease 0s;
     border-radius: 2rem;
+    box-shadow: 
+    0 11px 15px #00000033,
+    0 24px 38px #00000024,
+    0 9px 46px #0000001f;
 }
 
 #manage-timezones-layer {
@@ -100,7 +104,7 @@ body {
 
 .layer-head {
     width: 100%;
-    padding: 1rem 1rem 0;
+    padding: 1rem;
     font-size: 1.25rem;
     position: sticky;
     top: 0;
@@ -108,11 +112,19 @@ body {
     display: flex;
     justify-content: center;
     background-color: #a1c6f7;
+    border-bottom: 1px solid #00000066;
     z-index: 1;
+    transition: box-shadow 0.1s ease 0s;
+}
+
+.layer-heading {
+    font-weight: 500;
 }
 
 .edit-head {
     position: relative;
+    box-shadow: none;
+    border: none;
 }
 
 #alarm-add-btn {
@@ -151,7 +163,7 @@ body {
 }
 
 #remove-layer {
-    border-bottom: 1px solid #1a1a1a;
+    border-bottom: 1px solid #00000066;
 }
 
 .layer-area {
@@ -165,7 +177,7 @@ body {
 }
 
 .layer-entry {
-    border-bottom: 1px solid #808080;
+    border-bottom: 1px solid #747c8b66;
 }
 
 .layer-entry:last-child {
@@ -213,7 +225,6 @@ button {
     font-size: 1.25rem;
     font-weight: 500;
     letter-spacing: 1.25px;
-    border: none;
 }
 
 .icon-btn {
@@ -251,6 +262,10 @@ button {
     flex-direction: column;
     background-color: #d0e2fb;
     border-radius: 1.75rem;
+    box-shadow: 
+    0 2px 1px #00000033,
+    0 1px 1px #00000024,
+    0 1px 3px #0000001f;
 }
 
 .save-entry {
@@ -278,6 +293,7 @@ button {
 
 .entry-time {
     font-size: 3rem;
+    font-weight: 300;
 }
 
 .btn-area {
@@ -344,10 +360,12 @@ input[type="checkbox"] {
     padding: 0;
     font-family: 'Roboto', sans-serif;
     font-size: 4.5rem;
+    font-weight: 300;
     border: none;
     background-color: transparent;
     caret-color: #ff000000;
     outline: none;
+    cursor: pointer;
 }
 
 input::-webkit-outer-spin-button,
@@ -367,7 +385,7 @@ input[type="number"] {
     padding: 1rem 0;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #808080;
+    border-bottom: 1px solid #747c8b66;
     font-size: 1.125rem;
 }
 
@@ -414,6 +432,7 @@ input[type="number"] {
 #stopwatch-time {
     width: 20rem;
     font-size: 3.75rem;
+    font-weight: 300;
 }
 
 #stopwatch-lap-reset-btn, #timer-cancel-btn {
@@ -427,6 +446,17 @@ input[type="number"] {
 .solid-btn {
     color: #ffffff;
     border: 2px solid #747c8b66;
+    box-shadow: 
+    0 3px 1px #00000033,
+    0 2px 2px #00000024,
+    0 1px 5px #0000001f;
+}
+
+.click-effect:active {
+    box-shadow: 
+    0 5px 5px #00000033,
+    0 8px 10px #00000024,
+    0 3px 14px #0000001f;
 }
 
 .lap-area {
@@ -470,6 +500,7 @@ input[type="number"] {
 
 #timer-time {
     font-size: 4.5rem;
+    font-weight: 300;
 }
 
 #ring-time-area {
@@ -497,6 +528,10 @@ input[type="number"] {
     border-top: 1px solid #747c8b66;
     background-color: #ffffff;
     z-index: 99;
+    box-shadow: 
+    0 5px 5px #00000033,
+    0 8px 10px #00000024,
+    0 3px 14px #0000001f;
 }
 
 .icon-area {
