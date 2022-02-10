@@ -396,7 +396,7 @@ input[type="number"] {
 
 #stopwatch-body {
     grid-column: 1/-1;
-    padding-bottom: calc(4rem - 1px);
+    padding-bottom: 4rem;
     display: flex;
     flex-direction: column;
     margin-top: auto;
