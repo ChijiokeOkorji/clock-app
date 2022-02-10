@@ -109,7 +109,7 @@ function alarmAlertLayout() {
   alarmAlertLayer.innerHTML = `
   <div id="alarm-label-text" class="alert-text"></div>
 
-  <button id="alarm-alert-stop" class="text-btn solid-btn">STOP</button>
+  <button id="alarm-alert-stop" class="text-btn solid-btn click-effect">STOP</button>
   `;
 }
 
@@ -292,7 +292,7 @@ function timerAlertLayout() {
   timerAlertLayer.innerHTML = `
   <div id="timer-label-text" class="alert-text"></div>
 
-  <button id="timer-alert-stop" class="text-btn solid-btn">STOP</button>
+  <button id="timer-alert-stop" class="text-btn solid-btn click-effect">STOP</button>
   `;
 }
 
@@ -378,7 +378,7 @@ function generateTimerTimeout() {
 }
 
 function renderWorldClock() {
-  let currentTime, currentDate, currentTimeDate, myTimezones, removeLayer, addLayer, savesLayout, removeLayout, addLayout, saveEntry, layerEntry, editBtn, doneBtn, manageLayer, layerBtn;
+  let currentTime, currentDate, currentTimeDate, myTimezones, removeLayer, addLayer, savesLayout, removeLayout, addLayout, saveEntry, layerEntry, editBtn, doneBtn, manageLayer, layerHead, layerBtn;
 
   mainContentArea.innerHTML = `
   <div id="clock-main" class="main">
@@ -426,6 +426,17 @@ function renderWorldClock() {
   editBtn = document.querySelector('#clock-edit-btn');
   doneBtn = document.querySelector('#clock-done-btn');
   manageLayer = document.querySelector('#manage-timezones-layer');
+  layerHead = document.querySelector('.layer-head');
+
+  manageLayer.addEventListener('scroll', () => {
+    requestAnimationFrame(() => {
+      if (manageLayer.scrollTop > 0) {
+        layerHead.style.cssText = 'box-shadow: 0 2px 4px #00000033, 0 4px 5px #00000024, 0 1px 10px #0000001f;';
+      } else {
+        layerHead.style.cssText = 'box-shadow: 0 2px 4px #ff000000, 0 4px 5px #ff000000, 0 1px 10px #ff000000;';
+      }
+    });
+  });
 
   function refreshTimeZones() {
     currentTimeDate = new Date();
@@ -534,6 +545,8 @@ function renderWorldClock() {
   }
 
   editBtn.addEventListener('click', () => {
+    manageLayer.scrollTop = 0;
+
     manageLayer.style.marginTop = 0;
     layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
   });
@@ -566,11 +579,11 @@ function renderAlarm() {
   
         <div id="add-alarm-time" class="edit-time">
           <div id="hour-input-area" class="digit-input-area">
-            <input id="hour-input" type="number" class="digit-input">
+            <input id="hour-input" type="number" class="digit-input" inputmode="numeric" pattern="[0-9]*">
           </div>
           <span class="digit-colon">:</span>
           <div id="minute-input-area" class="digit-input-area">
-            <input id="minute-input" type="number" class="digit-input">
+            <input id="minute-input" type="number" class="digit-input" inputmode="numeric" pattern="[0-9]*">
           </div>
         </div>
 
@@ -603,7 +616,7 @@ function renderAlarm() {
     <div class="head-layer">
       <button id="alarm-edit-btn" class="text-btn heading-btn btn-left">EDIT</button>
       
-      <button id="edit-alarm-done" class="text-btn solid-btn btn-center">DONE</button>
+      <button id="edit-alarm-done" class="text-btn solid-btn click-effect btn-center">DONE</button>
 
       <button id="alarm-add-btn" class="icon-btn heading-btn btn-right"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjQgMTBoLTEwdi0xMGgtNHYxMGgtMTB2NGgxMHYxMGg0di0xMGgxMHoiLz48L3N2Zz4="></button>
     </div>
@@ -658,9 +671,6 @@ function renderAlarm() {
   }
   
   editExist();
-  
-  hoursValue = '00';
-  minutesValue = '00';
 
   addAlarmBtn.addEventListener('click', () => {
     repeatCheckboxes.forEach((item) => {
@@ -672,8 +682,12 @@ function renderAlarm() {
       }
     });
 
+    setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
+
     addAlarmLayer.style.marginTop = '40vh';
     layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
+    hoursValue = '00';
+    minutesValue = '00';
     hourInput.value = '00';
     minuteInput.value = '00';
     alarmName.value = '';
@@ -938,6 +952,8 @@ function renderAlarm() {
 
         alarmName.value = (arrayObject.label === 'Alarm') ? '' : arrayObject.label
 
+        setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
+
         addAlarmLayer.style.marginTop = '40vh';
         layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
       });
@@ -1011,7 +1027,7 @@ function renderStopwatch() {
         <div id="stopwatch-btns" class="head-layer">
           <button id="stopwatch-lap-reset-btn" class="text-btn solid-btn">LAP</button>
 
-          <button id="stopwatch-state-btn" class="text-btn solid-btn">START</button>
+          <button id="stopwatch-state-btn" class="text-btn solid-btn click-effect">START</button>
         </div>
       
         <div class="lap-area">
@@ -1082,6 +1098,8 @@ function renderStopwatch() {
 
     createLaps();
 
+    stopwatchLapResetBtn.classList.add('click-effect');
+
     stopwatchLapResetBtn.style.backgroundColor = '#1a1a1a';
     stopwatchStateBtn.style.backgroundColor = '#d60000';
 
@@ -1099,6 +1117,8 @@ function renderStopwatch() {
 
     createLaps();
 
+    stopwatchLapResetBtn.classList.add('click-effect');
+
     stopwatchLapResetBtn.style.backgroundColor = '#1a1a1a';
     stopwatchStateBtn.style.backgroundColor = '#00b800';
 
@@ -1115,6 +1135,8 @@ function renderStopwatch() {
       requestAnimationFrame(refreshStopwatch);
 
       stopwatch.state = 'play';
+
+      stopwatchLapResetBtn.classList.add('click-effect');
 
       stopwatchLapResetBtn.style.backgroundColor = '#1a1a1a';
       stopwatchStateBtn.style.backgroundColor = '#d60000';
@@ -1190,6 +1212,9 @@ function renderStopwatch() {
       stopwatch.laps = [];
 
       lapSaves.innerHTML = '';
+
+      stopwatchLapResetBtn.classList.remove('click-effect');
+
       stopwatchLapResetBtn.style.backgroundColor = '#5c5c5c';
       stopwatchLapResetBtn.textContent = 'LAP';
     }
@@ -1212,19 +1237,19 @@ function renderTimer() {
             <div id="hour-input-area" class="digit-input-area">
               <span class="input-guide">H</span>
         
-              <input id="timer-hour-input" type="number" class="digit-input">
+              <input id="timer-hour-input" type="number" class="digit-input" inputmode="numeric" pattern="[0-9]*">
             </div>
             <span class="digit-colon">:</span>
             <div id="minute-input-area" class="digit-input-area">
               <span class="input-guide">M</span>
         
-              <input id="timer-minute-input" type="number" class="digit-input">
+              <input id="timer-minute-input" type="number" class="digit-input" inputmode="numeric" pattern="[0-9]*">
             </div>
             <span class="digit-colon">:</span>
             <div id="second-input-area" class="digit-input-area">
               <span class="input-guide">S</span>
         
-              <input id="timer-second-input" type="number" class="digit-input">
+              <input id="timer-second-input" type="number" class="digit-input" inputmode="numeric" pattern="[0-9]*">
             </div>
           </div>
       
@@ -1242,7 +1267,7 @@ function renderTimer() {
         <div id="timer-btns" class="head-layer">
           <button id="timer-cancel-btn" class="text-btn solid-btn">CANCEL</button>
       
-          <button id="timer-start-pause-btn" class="text-btn solid-btn">START</button>
+          <button id="timer-start-pause-btn" class="text-btn solid-btn click-effect">START</button>
         </div>
       </div>
     </div>
@@ -1305,12 +1330,15 @@ function renderTimer() {
     timerMinuteInput.value = '10';
     timerSecondInput.value = '00';
 
+    timerHourInput.focus();
   } else if (timer.state === 'play') {
     addTimerTime.style.display = 'none';
 
     timerRefreshFrame = requestAnimationFrame(refreshTimer);
     
     updateRingTime();
+
+    timerCancelBtn.classList.add('click-effect');
 
     timerCancelBtn.style.backgroundColor = '#1a1a1a';
     timerStartPauseBtn.style.backgroundColor = '#1470eb';
@@ -1323,6 +1351,8 @@ function renderTimer() {
     
     ringTimeArea.style.opacity = 0.6;
     ringTime.textContent = new Date(timer.endTime).toLocaleString('en-GB', {hour: 'numeric', minute:'numeric'});
+
+    timerCancelBtn.classList.add('click-effect');
 
     timerCancelBtn.style.backgroundColor = '#1a1a1a';
     timerStartPauseBtn.style.backgroundColor = '#00b800';
@@ -1453,6 +1483,8 @@ function renderTimer() {
       addTimerTime.style.display = 'none';
       timerTimeArea.style.opacity = 0.9;
 
+      timerCancelBtn.classList.add('click-effect');
+
       timerCancelBtn.style.backgroundColor = '#1a1a1a';
       timerStartPauseBtn.style.backgroundColor = '#1470eb';
 
@@ -1494,18 +1526,22 @@ function renderTimer() {
   });
 
   function timerCancel() {
-    clearTimeout(timer.timeout);
+    if (timer.startTime) {
+      clearTimeout(timer.timeout);
 
-    delete timer.endTime;
-    delete timer.startTime;
-    delete timer.totalTime;
-    delete timer.timeout;
-    delete timer.state;
+      delete timer.endTime;
+      delete timer.startTime;
+      delete timer.totalTime;
+      delete timer.timeout;
+      delete timer.state;
 
-    timer.elapsedTime = 0;
+      timer.elapsedTime = 0;
 
-    timerSetSessionStorage();
-    renderTimer();
+      timerCancelBtn.classList.remove('click-effect');
+
+      timerSetSessionStorage();
+      renderTimer();
+    }
   }
 
   timerCancelBtn.addEventListener('click', timerCancel);
