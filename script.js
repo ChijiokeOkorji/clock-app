@@ -550,7 +550,7 @@ function renderWorldClock() {
 renderWorldClock();
 
 function renderAlarm() {
-  let addAlarmLayer, addAlarmBtn, hourInput, minuteInput, hoursValue, minutesValue, addAlarmCancel, addAlarmDone, alarmName, myAlarms, alarmsLayout, repeatCheckboxes, editAlarmBtn, editAlarmDone, alarmNumber;
+  let addAlarmLayer, addAlarmBtn, hourInputArea, hourInput, minuteInputArea, minuteInput, hoursValue, minutesValue, addAlarmCancel, addAlarmDone, alarmName, myAlarms, alarmsLayout, repeatCheckboxes, editAlarmBtn, editAlarmDone, alarmNumber;
 
   mainContentArea.innerHTML = `
   <div id="alarm-main" class="main">
@@ -565,7 +565,13 @@ function renderAlarm() {
         </div>
   
         <div id="add-alarm-time" class="edit-time">
-          <input id="hour-input" type="number" class="digit-input"><span class="digit-colon">:</span><input id="minute-input" type="number" class="digit-input">
+          <div id="hour-input-area" class="digit-input-area">
+            <input id="hour-input" type="number" class="digit-input">
+          </div>
+          <span class="digit-colon">:</span>
+          <div id="minute-input-area" class="digit-input-area">
+            <input id="minute-input" type="number" class="digit-input">
+          </div>
         </div>
 
         <div id="repeat-alarm">
@@ -586,7 +592,7 @@ function renderAlarm() {
           <input id="saturday-checkbox" type="checkbox" name="repeat-alarm" value="saturday">
         </div>
 
-        <div class="add-alarm-label">
+        <div class="add-layer-label">
           <label for="alarm-name">Label</label>
   
           <input id="alarm-name" type="text" maxlength="20" placeholder="Alarm">
@@ -612,7 +618,9 @@ function renderAlarm() {
   layerView = document.querySelector('.layer-view');
   addAlarmLayer = document.querySelector('#add-alarm-layer');
   addAlarmBtn = document.querySelector('#alarm-add-btn');
+  hourInputArea = document.querySelector('#hour-input-area');
   hourInput = document.querySelector('#hour-input');
+  minuteInputArea = document.querySelector('#minute-input-area');
   minuteInput = document.querySelector('#minute-input');
   addAlarmCancel = document.querySelector('#add-alarm-cancel');
   addAlarmDone = document.querySelector('#add-alarm-done');
@@ -624,6 +632,22 @@ function renderAlarm() {
 
   addAlarmLayer.style.overflowY = 'hidden';
   editAlarmDone.style.display = 'none';
+
+  hourInput.addEventListener('focus', () => {
+    hourInputArea.style.borderColor = '#1470eb';
+  });
+
+  hourInput.addEventListener('blur', () => {
+    hourInputArea.style.borderColor = '#747c8b66';
+  });
+
+  minuteInput.addEventListener('focus', () => {
+    minuteInputArea.style.borderColor = '#1470eb';
+  });
+
+  minuteInput.addEventListener('blur', () => {
+    minuteInputArea.style.borderColor = '#747c8b66';
+  });
 
   function editExist() {
     if (!(alarms.length)) {
@@ -647,6 +671,8 @@ function renderAlarm() {
         labelBox.style.backgroundColor = '#ff000000';
       }
     });
+
+    setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
 
     addAlarmLayer.style.marginTop = '40vh';
     layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
@@ -914,6 +940,8 @@ function renderAlarm() {
 
         alarmName.value = (arrayObject.label === 'Alarm') ? '' : arrayObject.label
 
+        setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
+
         addAlarmLayer.style.marginTop = '40vh';
         layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
       });
@@ -991,7 +1019,7 @@ function renderStopwatch() {
         </div>
       
         <div class="lap-area">
-          <div id="running-lap" class="add-alarm-label lap-entry">
+          <div id="running-lap" class="add-layer-label lap-entry">
             <div class="alarm-label">Lap 1</div>
     
             <div class="lap-time"></div>
@@ -1123,7 +1151,7 @@ function renderStopwatch() {
 
     for (let i = stopwatchLapLength - 1; i >= 0; i--) {
       lapsLayout = `
-      <div id="Lap${i + 1}" class="add-alarm-label lap-entry">
+      <div id="Lap${i + 1}" class="add-layer-label lap-entry">
         <div class="alarm-label">Lap ${i + 1}</div>
 
         <div class="lap-time">${formatTime(stopwatch.laps[i])}</div>
@@ -1177,7 +1205,7 @@ function renderStopwatch() {
 }
 
 function renderTimer() {
-  let addTimerTime, timerTimeArea, timerTime, ringTimeArea, ringTime, timerHourInput, timerMinuteInput, timerSecondInput, timerStartPauseBtn, timerCancelBtn, hoursValue, minutesValue, secondsValue, timerRefreshFrame;
+  let addTimerTime, timerTimeArea, timerTime, ringTimeArea, ringTime, hourInputArea, timerHourInput, minuteInputArea, timerMinuteInput, secondInputArea, timerSecondInput, timerStartPauseBtn, timerCancelBtn, hoursValue, minutesValue, secondsValue, timerRefreshFrame;
 
   mainContentArea.innerHTML = `
   <div id="timer-main" class="main">
@@ -1185,7 +1213,23 @@ function renderTimer() {
       <div id="timer-body">
         <div class="timer-area">
           <div id="add-timer-time" class="edit-time">
-            <div class="input-area"><span class="input-guide">H</span><input id="timer-hour-input" type="number" class="digit-input"></div><span class="digit-colon">:</span><div class="input-area"><span class="input-guide">M</span><input id="timer-minute-input" type="number" class="digit-input"></div><span class="digit-colon">:</span><div class="input-area"><span class="input-guide">S</span><input id="timer-second-input" type="number" class="digit-input"></div>
+            <div id="hour-input-area" class="digit-input-area">
+              <span class="input-guide">H</span>
+        
+              <input id="timer-hour-input" type="number" class="digit-input">
+            </div>
+            <span class="digit-colon">:</span>
+            <div id="minute-input-area" class="digit-input-area">
+              <span class="input-guide">M</span>
+        
+              <input id="timer-minute-input" type="number" class="digit-input">
+            </div>
+            <span class="digit-colon">:</span>
+            <div id="second-input-area" class="digit-input-area">
+              <span class="input-guide">S</span>
+        
+              <input id="timer-second-input" type="number" class="digit-input">
+            </div>
           </div>
       
           <div id="timer-time-area">
@@ -1217,13 +1261,40 @@ function renderTimer() {
   timerTime = document.querySelector('#timer-time');
   ringTimeArea = document.querySelector('#ring-time-area');
   ringTime = document.querySelector('#ring-time');
+  hourInputArea = document.querySelector('#hour-input-area');
   timerHourInput = document.querySelector('#timer-hour-input');
+  minuteInputArea = document.querySelector('#minute-input-area');
   timerMinuteInput = document.querySelector('#timer-minute-input');
+  secondInputArea = document.querySelector('#second-input-area');
   timerSecondInput = document.querySelector('#timer-second-input');
   timerStartPauseBtn = document.querySelector('#timer-start-pause-btn');
   timerCancelBtn = document.querySelector('#timer-cancel-btn');
 
   timer.elapsedTime = (timer.elapsedTime) ? timer.elapsedTime : 0;
+
+  timerHourInput.addEventListener('focus', () => {
+    hourInputArea.style.borderColor = '#1470eb';
+  });
+
+  timerHourInput.addEventListener('blur', () => {
+    hourInputArea.style.borderColor = '#747c8b66';
+  });
+
+  timerMinuteInput.addEventListener('focus', () => {
+    minuteInputArea.style.borderColor = '#1470eb';
+  });
+
+  timerMinuteInput.addEventListener('blur', () => {
+    minuteInputArea.style.borderColor = '#747c8b66';
+  });
+
+  timerSecondInput.addEventListener('focus', () => {
+    secondInputArea.style.borderColor = '#1470eb';
+  });
+
+  timerSecondInput.addEventListener('blur', () => {
+    secondInputArea.style.borderColor = '#747c8b66';
+  });
 
   if (!(timer.startTime)) {
     timerTimeArea.style.opacity = 0;
@@ -1237,6 +1308,8 @@ function renderTimer() {
     timerHourInput.value = '00';
     timerMinuteInput.value = '10';
     timerSecondInput.value = '00';
+
+    timerHourInput.focus();
 
   } else if (timer.state === 'play') {
     addTimerTime.style.display = 'none';
