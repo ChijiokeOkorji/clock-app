@@ -672,8 +672,6 @@ function renderAlarm() {
       }
     });
 
-    setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
-
     addAlarmLayer.style.marginTop = '40vh';
     layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
     hourInput.value = '00';
@@ -939,8 +937,6 @@ function renderAlarm() {
         }
 
         alarmName.value = (arrayObject.label === 'Alarm') ? '' : arrayObject.label
-
-        setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
 
         addAlarmLayer.style.marginTop = '40vh';
         layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
@@ -1308,8 +1304,6 @@ function renderTimer() {
     timerHourInput.value = '00';
     timerMinuteInput.value = '10';
     timerSecondInput.value = '00';
-
-    timerHourInput.focus();
 
   } else if (timer.state === 'play') {
     addTimerTime.style.display = 'none';
