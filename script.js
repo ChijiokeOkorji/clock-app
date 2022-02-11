@@ -563,7 +563,7 @@ function renderWorldClock() {
 renderWorldClock();
 
 function renderAlarm() {
-  let addAlarmLayer, addAlarmBtn, hourInputArea, hourInput, minuteInputArea, minuteInput, hoursValue, minutesValue, addAlarmCancel, addAlarmDone, alarmName, myAlarms, alarmsLayout, repeatCheckboxes, editAlarmBtn, editAlarmDone, alarmNumber;
+  let addAlarmLayer, addAlarmBtn, hourInputArea, hourInput, minuteInputArea, minuteInput, hoursValue, minutesValue, addAlarmCancel, addAlarmDone, alarmName, addAlarmLabel, myAlarms, alarmsLayout, repeatCheckboxes, editAlarmBtn, editAlarmDone, alarmNumber;
 
   mainContentArea.innerHTML = `
   <div id="alarm-main" class="main">
@@ -638,6 +638,7 @@ function renderAlarm() {
   addAlarmCancel = document.querySelector('#add-alarm-cancel');
   addAlarmDone = document.querySelector('#add-alarm-done');
   alarmName = document.querySelector('#alarm-name');
+  addAlarmLabel = document.querySelector('.add-layer-label');
   myAlarms = document.querySelector('#my-alarms');
   repeatCheckboxes = document.querySelectorAll('input[type="checkbox"]');
   editAlarmBtn = document.querySelector('#alarm-edit-btn');
@@ -662,6 +663,14 @@ function renderAlarm() {
     minuteInputArea.style.borderColor = '#747c8b66';
   });
 
+  alarmName.addEventListener('focus', () => {
+    addAlarmLabel.style.borderColor = '#1470eb';
+  });
+
+  alarmName.addEventListener('blur', () => {
+    addAlarmLabel.style.borderColor = '#747c8b66';
+  });
+
   function editExist() {
     if (!(alarms.length)) {
       editAlarmBtn.style.display = 'none';
@@ -681,8 +690,6 @@ function renderAlarm() {
         labelBox.style.backgroundColor = '#ff000000';
       }
     });
-
-    setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
 
     addAlarmLayer.style.marginTop = '40vh';
     layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
@@ -951,8 +958,6 @@ function renderAlarm() {
         }
 
         alarmName.value = (arrayObject.label === 'Alarm') ? '' : arrayObject.label
-
-        setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
 
         addAlarmLayer.style.marginTop = '40vh';
         layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
@@ -1329,8 +1334,6 @@ function renderTimer() {
     timerHourInput.value = '00';
     timerMinuteInput.value = '10';
     timerSecondInput.value = '00';
-
-    timerHourInput.focus();
   } else if (timer.state === 'play') {
     addTimerTime.style.display = 'none';
 
