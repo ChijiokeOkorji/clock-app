@@ -579,11 +579,11 @@ function renderAlarm() {
   
         <div id="add-alarm-time" class="edit-time">
           <div id="hour-input-area" class="digit-input-area">
-            <input id="hour-input" type="text" class="digit-input" inputmode="numeric" pattern="[0-9]*">
+            <input id="hour-input" type="number" class="digit-input" inputmode="numeric" pattern="[0-9]*">
           </div>
           <span class="digit-colon">:</span>
           <div id="minute-input-area" class="digit-input-area">
-            <input id="minute-input" type="text" class="digit-input" inputmode="numeric" pattern="[0-9]*">
+            <input id="minute-input" type="number" class="digit-input" inputmode="numeric" pattern="[0-9]*">
           </div>
         </div>
 
@@ -690,6 +690,8 @@ function renderAlarm() {
         labelBox.style.backgroundColor = '#ff000000';
       }
     });
+
+    setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
 
     addAlarmLayer.style.marginTop = '40vh';
     layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
@@ -958,6 +960,8 @@ function renderAlarm() {
         }
 
         alarmName.value = (arrayObject.label === 'Alarm') ? '' : arrayObject.label
+
+        setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
 
         addAlarmLayer.style.marginTop = '40vh';
         layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
@@ -1242,19 +1246,19 @@ function renderTimer() {
             <div id="hour-input-area" class="digit-input-area">
               <span class="input-guide">H</span>
         
-              <input id="timer-hour-input" type="text" class="digit-input" inputmode="numeric" pattern="[0-9]*">
+              <input id="timer-hour-input" type="number" class="digit-input" inputmode="numeric" pattern="[0-9]*">
             </div>
             <span class="digit-colon">:</span>
             <div id="minute-input-area" class="digit-input-area">
               <span class="input-guide">M</span>
         
-              <input id="timer-minute-input" type="text" class="digit-input" inputmode="numeric" pattern="[0-9]*">
+              <input id="timer-minute-input" type="number" class="digit-input" inputmode="numeric" pattern="[0-9]*">
             </div>
             <span class="digit-colon">:</span>
             <div id="second-input-area" class="digit-input-area">
               <span class="input-guide">S</span>
         
-              <input id="timer-second-input" type="text" class="digit-input" inputmode="numeric" pattern="[0-9]*">
+              <input id="timer-second-input" type="number" class="digit-input" inputmode="numeric" pattern="[0-9]*">
             </div>
           </div>
       
@@ -1334,6 +1338,8 @@ function renderTimer() {
     timerHourInput.value = '00';
     timerMinuteInput.value = '10';
     timerSecondInput.value = '00';
+
+    timerHourInput.focus();
   } else if (timer.state === 'play') {
     addTimerTime.style.display = 'none';
 
