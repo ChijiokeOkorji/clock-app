@@ -353,6 +353,7 @@ input[type="checkbox"] {
 .digit-input {
     width: 5.125rem;
     height: 5.125rem;
+    padding: 1px 2px;
     font-family: 'Roboto', sans-serif;
     font-size: 4.5rem;
     font-weight: 300;
