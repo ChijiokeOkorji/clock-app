@@ -341,8 +341,8 @@ input[type="checkbox"] {
 }
 
 .digit-input-area {
-    width: 5.375rem;
-    height: 5.375rem;
+    width: 5.5rem;
+    height: 5.5rem;
     background-color: #ffffff;
     border: 2px solid #747c8b66;
     border-radius: 1rem;
@@ -351,15 +351,15 @@ input[type="checkbox"] {
 }
 
 .digit-input {
-    width: 5.125rem;
-    height: 5.125rem;
-    padding: 1px 0 1px 2px;
+    width: 5.25rem;
+    height: 5.25rem;
+    padding: 2px 0 2px 2px;
     font-family: 'Roboto', sans-serif;
     font-size: 4.5rem;
     font-weight: 300;
     border: none;
     background-color: #ff000000;
-    /* caret-color: #ff000000; */
+    caret-color: #ff000000;
     outline: none;
     cursor: pointer;
 }
