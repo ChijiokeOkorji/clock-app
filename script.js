@@ -132,7 +132,7 @@ function alarmStopBtnEvent() {
   document.querySelector('#alarm-alert-stop').addEventListener('click', alarmStopBtnEvent);
 
   alarmAlertLayer.querySelector('#alarm-label-text').textContent = currentAlarmLabel;
-  layerView.style.zIndex = 999;
+  layerView.style.zIndex = 99;
 
   alarmAlertLayer.style.cssText = 'margin-bottom: 0;';
 
@@ -181,7 +181,7 @@ function alarmAlertFormat() {
 
   alarmAlertLayer.querySelector('#alarm-label-text').textContent = this.label;
 
-  layerView.style.zIndex = 999;
+  layerView.style.zIndex = 99;
   
   requestAnimationFrame(() => {
     alarmAlertLayer.style.cssText = 'margin-bottom: 0;';
@@ -314,7 +314,7 @@ function timerAlertFormat() {
     timerAlertLayout();
 
     timerAlertLayer.querySelector('#timer-label-text').textContent = 'Timer';
-    layerView.style.zIndex = 999;
+    layerView.style.zIndex = 99;
 
     timerAlertLayer.style.cssText = 'margin-bottom: 0;';
 
@@ -354,7 +354,7 @@ function timerAlertFormat() {
 
   timerAlertLayer.querySelector('#timer-label-text').textContent = 'Timer';
 
-  layerView.style.zIndex = 999;
+  layerView.style.zIndex = 99;
   
   requestAnimationFrame(() => {
     timerAlertLayer.style.cssText = 'margin-bottom: 0;';
@@ -548,7 +548,7 @@ function renderWorldClock() {
     manageLayer.scrollTop = 0;
 
     manageLayer.style.marginTop = 0;
-    layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
+    layerView.style.cssText = 'z-index: 99; background-color: #0000001a;';
   });
   doneBtn.addEventListener('click', () => {
     manageLayer.style.marginTop = '100vh';
@@ -693,8 +693,8 @@ function renderAlarm() {
 
     setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
 
-    addAlarmLayer.style.marginTop = '40vh';
-    layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
+    addAlarmLayer.style.marginTop = '50vh';
+    layerView.style.cssText = 'z-index: 99; background-color: #0000001a;';
     hoursValue = '00';
     minutesValue = '00';
     hourInput.value = '00';
@@ -963,8 +963,8 @@ function renderAlarm() {
 
         setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
 
-        addAlarmLayer.style.marginTop = '40vh';
-        layerView.style.cssText = 'z-index: 9; background-color: #0000001a;';
+        addAlarmLayer.style.marginTop = '50vh';
+        layerView.style.cssText = 'z-index: 99; background-color: #0000001a;';
       });
 
       item.querySelector('.remove-btn').addEventListener('click', (e) => {
