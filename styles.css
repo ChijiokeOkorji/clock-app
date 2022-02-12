@@ -359,7 +359,7 @@ input[type="checkbox"] {
     font-weight: 300;
     border: none;
     background-color: #ff000000;
-    caret-color: #ff000000;
+    /* caret-color: #ff000000; */
     outline: none;
     cursor: pointer;
 }
