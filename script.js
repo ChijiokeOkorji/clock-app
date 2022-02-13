@@ -460,11 +460,8 @@ function renderWorldClock() {
       item.querySelector('.entry-info').textContent = `${isItTodayTime(parseInt(timezones[item.id][1]))[0]} (GMT ${timezones[item.id][1]})`;
     });
   }
-  // refreshTimeZones();
-  // timeZoneRefreshFrame = setInterval(refreshTimeZones, 1000);
-  window.addEventListener('resize', () => {
-    currentTime.textContent = innerHeight;
-  })
+  refreshTimeZones();
+  timeZoneRefreshFrame = setInterval(refreshTimeZones, 1000);
 
   function createTimeZones() {
     myTimezones.innerHTML = '';
