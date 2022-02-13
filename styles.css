@@ -16,6 +16,14 @@ body {
     color: #1a1a1a;
 }
 
+.preload * {
+    transition: none !important;
+}
+
+a:focus, button:focus, input:focus, textarea:focus {
+    outline: none;
+}
+
 #main-content-area {
     min-height: 100vh;
     padding: 0 0 4rem 0;
@@ -43,7 +51,7 @@ body {
     justify-content: center;
     align-items: center;
     background-color: #ffffff;
-    transition: margin 0.5s ease 0s;
+    transition: margin 0.3s ease 0s;
     z-index: 2;
 }
 
@@ -70,7 +78,7 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     overflow: hidden;
-    transition: background-color 0.5s ease 0s;
+    transition: background-color 0.3s ease 0s;
 }
 
 .layer-overlay {
@@ -82,8 +90,8 @@ body {
     height: 100%;
     background-color: #a1c6f7;
     overflow-y: scroll;
-    transition: margin 0.5s ease 0s;
     border-radius: 2rem 2rem 0 0;
+    transition: margin 0.3s ease 0s;
     box-shadow: 
     0 11px 15px #00000033,
     0 24px 38px #00000024,
@@ -95,7 +103,7 @@ body {
 }
 
 .alarm-timer-layer {
-    height: 50%;
+    height: max(20rem, 40%);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -312,6 +320,7 @@ button {
 }
 
 .edit-time {
+    padding: 1rem 0;
     font-size: 4.5rem;
     display: flex;
     justify-content: center;
@@ -319,6 +328,7 @@ button {
 }
 
 #repeat-alarm {
+    padding: 1rem 0;
     display: flex;   
     justify-content: space-evenly;
     font-size: 1.25rem;
@@ -357,9 +367,9 @@ input[type="checkbox"] {
     font-size: 4.5rem;
     font-weight: 300;
     border: none;
+    color: #1a1a1a;
     background-color: #ff000000;
     caret-color: #ff000000;
-    outline: none;
     cursor: pointer;
 }
 
@@ -390,7 +400,6 @@ input[type="number"] {
     border: none;
     text-align: right;
     background-color: #ff000000;
-    outline: none;
     caret-color: #1470eb;
     cursor: pointer;
 }
@@ -568,6 +577,10 @@ input[type="number"] {
 
     .main, .layer-overlay, #stopwatch-body, #timer-body {
         grid-column: 2/-2;
+    }
+
+    .my-saves {
+        padding: 0 1rem;
     }
 }
 
