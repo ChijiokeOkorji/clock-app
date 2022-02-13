@@ -2,15 +2,13 @@
 
 let alarmSound, timerSound, mainContentArea, body, pageId, timeZoneRefreshFrame, layerView, alarmAlertLayer, removeAlarmAlert, timerAlertLayer, removeTimerAlert, vibrationInterval;
 
-alarmSound = new Audio('clock_sounds/alarm_sound.mp3');
-alarmSound.loop = true;
-
-timerSound = new Audio('clock_sounds/timer_sound.mp3');
-timerSound.loop = true;
-
 function alertVibrationPattern() {
   navigator.vibrate([1000, 1000]);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('.preload').classList.remove('preload');
+});
 
 mainContentArea = document.querySelector('#main-content-area');
 body = document.querySelector('body');
@@ -42,6 +40,12 @@ const timer = {};
 
 function loadPageResources() {
   let alarmStorage, timerStorage;
+
+  alarmSound = new Audio('clock_sounds/alarm_sound.mp3');
+  alarmSound.loop = true;
+
+  timerSound = new Audio('clock_sounds/timer_sound.mp3');
+  timerSound.loop = true;
   
   alarmStorage = JSON.parse(sessionStorage.getItem('alarms'));
   timerStorage = JSON.parse(sessionStorage.getItem('timer'));
@@ -681,6 +685,10 @@ function renderAlarm() {
   
   editExist();
 
+  function addLayerResize() {
+    addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
+  }
+
   addAlarmBtn.addEventListener('click', () => {
     repeatCheckboxes.forEach((item) => {
       let labelBox = document.querySelector(`[for=${item.id}]`);
@@ -693,7 +701,10 @@ function renderAlarm() {
 
     setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
 
-    addAlarmLayer.style.marginTop = '50vh';
+    addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
+
+    window.addEventListener('resize', addLayerResize);
+
     layerView.style.cssText = 'z-index: 99; background-color: #0000001a;';
     hoursValue = '00';
     minutesValue = '00';
@@ -703,6 +714,8 @@ function renderAlarm() {
   });
 
   function removeAddAlarmLayer() {
+    window.removeEventListener('resize', addLayerResize);
+
     addAlarmLayer.style.marginTop = '100vh';
     layerView.style.backgroundColor = '#ff000000';
     setTimeout(() => {layerView.style.zIndex = 0;}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
@@ -892,6 +905,8 @@ function renderAlarm() {
         item.querySelector('.btn-area').innerHTML = `<button class="toggle-btn"><img class="alarm-toggle svg-green" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik02IDE4aDEyYzMuMzExIDAgNi0yLjY4OSA2LTZzLTIuNjg5LTYtNi02aC0xMi4wMzljLTMuMjkzLjAyMS01Ljk2MSAyLjcwMS01Ljk2MSA2IDAgMy4zMTEgMi42ODggNiA2IDZ6bTEyLTEwYy0yLjIwOCAwLTQgMS43OTItNCA0czEuNzkyIDQgNCA0IDQtMS43OTIgNC00LTEuNzkyLTQtNC00eiIvPjwvc3ZnPg=="></button>`;
       } else {
         item.querySelector('.btn-area').innerHTML = `<button class="toggle-btn"><img class="alarm-toggle" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0xOCAxOGgtMTJjLTMuMzExIDAtNi0yLjY4OS02LTZzMi42ODktNiA2LTZoMTIuMDM5YzMuMjkzLjAyMSA1Ljk2MSAyLjcwMSA1Ljk2MSA2IDAgMy4zMTEtMi42ODggNi02IDZ6bS0xMi0xMGMyLjIwOCAwIDQgMS43OTIgNCA0cy0xLjc5MiA0LTQgNC00LTEuNzkyLTQtNCAxLjc5Mi00IDQtNHoiLz48L3N2Zz4="></button>`;
+        item.querySelector('.alarm-toggle').style.cssText = 'filter: invert(38%) sepia(0%) saturate(1253%) hue-rotate(142deg) brightness(103%) contrast(89%);';
+        item.querySelector('.entry-details').style.color = '#666666';
       }
 
       item.querySelectorAll('.toggle-btn').forEach((element) => {
@@ -963,7 +978,10 @@ function renderAlarm() {
 
         setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
 
-        addAlarmLayer.style.marginTop = '50vh';
+        addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
+
+        window.addEventListener('resize', addLayerResize);
+
         layerView.style.cssText = 'z-index: 99; background-color: #0000001a;';
       });
 
@@ -991,6 +1009,8 @@ function renderAlarm() {
 
     updateSavedAlarmsData();
 
+    window.removeEventListener('resize', addLayerResize);
+    
     renderAlarm();
   }
 
