@@ -625,7 +625,7 @@ function renderAlarm() {
         <div class="add-layer-label">
           <label for="alarm-name">Label</label>
   
-          <input id="alarm-name" type="text" maxlength="20" placeholder="Alarm">
+          <input id="alarm-name" type="text" maxlength="20" placeholder="Alarm" autocomplete="off">
         </div>
       </div>
     </div>
@@ -640,14 +640,10 @@ function renderAlarm() {
   
     <div id="my-alarms" class="my-saves section">
     </div>
-    <div id="test-box"></div>
   </div>
   `;
 
   pageId = document.querySelector('.main').id;
-
-  // remove
-  let testBox = document.querySelector('#test-box');
 
   layerView = document.querySelector('.layer-view');
   addAlarmLayer = document.querySelector('#add-alarm-layer');
@@ -704,8 +700,6 @@ function renderAlarm() {
 
   function addLayerResize() {
     addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
-    // remove
-    testBox.textContent = innerHeight;
   }
 
   addAlarmBtn.addEventListener('click', () => {
