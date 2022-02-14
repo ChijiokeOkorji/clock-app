@@ -6,7 +6,7 @@ function alertVibrationPattern() {
   navigator.vibrate([1000, 1000]);
 }
 
-document.addEventListener('load', () => {
+window.addEventListener('load', () => {
   document.querySelector('.preload').classList.remove('preload');
 });
 
