@@ -420,7 +420,7 @@ function renderWorldClock() {
   `;
 
   pageId = document.querySelector('.main').id;
-// remove
+
   layerContent = document.querySelector('.layer-content');
   removeLayer = document.querySelector('#remove-layer');
   addLayer = document.querySelector('#add-layer');
@@ -640,10 +640,14 @@ function renderAlarm() {
   
     <div id="my-alarms" class="my-saves section">
     </div>
+    <div id="test-box"></div>
   </div>
   `;
 
   pageId = document.querySelector('.main').id;
+
+  // remove
+  let testBox = document.querySelector('#test-box');
 
   layerView = document.querySelector('.layer-view');
   addAlarmLayer = document.querySelector('#add-alarm-layer');
@@ -700,6 +704,8 @@ function renderAlarm() {
 
   function addLayerResize() {
     addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
+    // remove
+    testBox.textContent = innerHeight;
   }
 
   addAlarmBtn.addEventListener('click', () => {
