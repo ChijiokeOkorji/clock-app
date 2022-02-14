@@ -110,12 +110,12 @@ a:focus, button:focus, input:focus, textarea:focus {
 }
 
 .layer-head {
-    width: 100%;
     padding: 1rem;
     font-size: 1.25rem;
     position: sticky;
     top: 0;
     left: 0;
+    right: 0;
     display: flex;
     justify-content: center;
     background-color: #a1c6f7;
