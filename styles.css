@@ -11,9 +11,10 @@ html {
 
 body {
     margin: 0;
+    height: 100vh;
     font-family: 'Roboto', sans-serif;
-    gap: 0 1rem;
     color: #1a1a1a;
+    overflow: hidden;
 }
 
 .preload * {
@@ -25,7 +26,7 @@ a:focus, button:focus, input:focus, textarea:focus {
 }
 
 #main-content-area {
-    min-height: 100vh;
+    min-height: 100%;
     padding: 0 0 4rem 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -71,7 +72,7 @@ a:focus, button:focus, input:focus, textarea:focus {
 
 .layer-view {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     position: fixed;
     top: 0;
     left: 0;
