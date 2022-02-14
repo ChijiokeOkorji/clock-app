@@ -18,9 +18,6 @@ body {
 
 .preload * {
     transition: none !important;
-    -webkit-transition: none !important;
-    -moz-transition: none !important;
-    -o-transition: none !important;
 }
 
 a:focus, button:focus, input:focus, textarea:focus {
