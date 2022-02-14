@@ -382,7 +382,7 @@ function generateTimerTimeout() {
 }
 
 function renderWorldClock() {
-  let currentTime, currentDate, currentTimeDate, myTimezones, removeLayer, addLayer, savesLayout, removeLayout, addLayout, saveEntry, layerEntry, editBtn, doneBtn, manageLayer, layerHead, layerBtn;
+  let currentTime, currentDate, currentTimeDate, myTimezones, layerContent, removeLayer, addLayer, savesLayout, removeLayout, addLayout, saveEntry, layerEntry, editBtn, doneBtn, manageLayer, layerHead, layerBtn;
 
   mainContentArea.innerHTML = `
   <div id="clock-main" class="main">
@@ -420,7 +420,8 @@ function renderWorldClock() {
   `;
 
   pageId = document.querySelector('.main').id;
-
+// remove
+  layerContent = document.querySelector('.layer-content');
   removeLayer = document.querySelector('#remove-layer');
   addLayer = document.querySelector('#add-layer');
   currentTime = document.querySelector('#current-time');
@@ -435,9 +436,9 @@ function renderWorldClock() {
   manageLayer.addEventListener('scroll', () => {
     requestAnimationFrame(() => {
       if (manageLayer.scrollTop > 0) {
-        layerHead.style.cssText = 'box-shadow: 0 2px 4px #00000033, 0 4px 5px #00000024, 0 1px 10px #0000001f;';
+        layerHead.style.boxShadow = '0 2px 4px #00000033, 0 4px 5px #00000024, 0 1px 10px #0000001f';
       } else {
-        layerHead.style.cssText = 'box-shadow: 0 2px 4px #ff000000, 0 4px 5px #ff000000, 0 1px 10px #ff000000;';
+        layerHead.style.boxShadow = '0 2px 4px #ff000000, 0 4px 5px #ff000000, 0 1px 10px #ff000000';
       }
     });
   });
@@ -553,12 +554,24 @@ function renderWorldClock() {
 
     manageLayer.style.marginTop = 0;
     layerView.style.cssText = 'z-index: 99; background-color: #0000001a;';
+
+    setTimeout(() => {
+      layerHead.style.position = 'fixed';
+      layerHead.style.margin = `0 ${(innerWidth - manageLayer.offsetWidth) / 2}px`;
+      layerContent.style.marginTop = `${layerHead.offsetHeight}px`;
+    }, parseFloat(getComputedStyle(manageLayer)['transition-duration']) * 1000);
   });
+
   doneBtn.addEventListener('click', () => {
     manageLayer.style.marginTop = '100vh';
     layerView.style.backgroundColor = '#ff000000';
+
+    layerHead.style.position = 'sticky';
+    layerHead.style.margin = 0;
+    layerContent.style.marginTop = 0;
     setTimeout(() => {layerView.style.zIndex = 0;}, parseFloat(getComputedStyle(manageLayer)['transition-duration']) * 1000);
   });
+
   layerBtn.forEach((item) => {
     item.addEventListener('click', layerBtnEvent);
   });
