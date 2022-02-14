@@ -625,7 +625,7 @@ function renderAlarm() {
         <div class="add-layer-label">
           <label for="alarm-name">Label</label>
   
-          <input id="alarm-name" type="text" maxlength="20" placeholder="Alarm" autocomplete="off">
+          <input id="alarm-name" type="text" maxlength="20" placeholder="Alarm" name="notASearchField">
         </div>
       </div>
     </div>
