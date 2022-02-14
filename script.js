@@ -585,7 +585,7 @@ function renderAlarm() {
   mainContentArea.innerHTML = `
   <div id="alarm-main" class="main">
     <div class="layer-view">
-      <div id="add-alarm-layer" class="layer-overlay alarm-timer-layer">
+      <div id="add-alarm-layer" class="layer-overlay alarm-layer">
         <div class="layer-head edit-head">
           <div id="add-alarm-cancel" class="heading-btn btn-left">CANCEL</div>
   
