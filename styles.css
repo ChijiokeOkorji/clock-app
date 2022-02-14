@@ -102,8 +102,9 @@ a:focus, button:focus, input:focus, textarea:focus {
     padding: 0;
 }
 
-.alarm-timer-layer {
-    height: max(20rem, 40%);
+.alarm-layer {
+    height: max(21rem, 40%);
+    padding: 0 1rem 2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
