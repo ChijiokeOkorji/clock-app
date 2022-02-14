@@ -10,11 +10,10 @@ html {
 }
 
 body {
-    margin: 0;
     height: 100vh;
+    margin: 0;
     font-family: 'Roboto', sans-serif;
     color: #1a1a1a;
-    overflow: hidden;
 }
 
 .preload * {
