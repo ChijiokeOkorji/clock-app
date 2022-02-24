@@ -50,7 +50,7 @@ function loadPageResources() {
   alarmStorage = JSON.parse(sessionStorage.getItem('alarms'));
   timerStorage = JSON.parse(sessionStorage.getItem('timer'));
 
-  if (alarmStorage && alarmStorage.length) {
+  if (alarmStorage?.length) {
     alarmStorage.forEach((item) => {
       alarms.push(item);
     });
@@ -62,7 +62,7 @@ function loadPageResources() {
     });
   }
 
-  if (timerStorage && timerStorage.startTime) {
+  if (timerStorage?.startTime) {
     for (let keys in timerStorage) {
       timer[keys] = timerStorage[keys];
     }
@@ -529,8 +529,8 @@ function renderWorldClock() {
   function layerBtnEvent(e) {
     let btnElement, entryElement;
 
-    btnElement = e.target.parentElement;
-    entryElement = e.target.parentElement.parentElement.parentElement;
+    btnElement = e.target.closest('.small-btn');
+    entryElement = e.target.closest('.layer-entry');
 
     if (btnElement.classList.contains('add-btn')) {
       timezones[entryElement.id][2] = 'show';
