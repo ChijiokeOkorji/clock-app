@@ -6,7 +6,7 @@ function alertVibrationPattern() {
   navigator.vibrate([1000, 1000]);
 }
 
-document.addEventListener('load', () => {
+window.addEventListener('load', () => {
   document.querySelector('.preload').classList.remove('preload');
 });
 
@@ -712,8 +712,6 @@ function renderAlarm() {
       }
     });
 
-    setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
-
     addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
 
     window.addEventListener('resize', addLayerResize);
@@ -987,9 +985,7 @@ function renderAlarm() {
           });
         }
 
-        alarmName.value = (arrayObject.label === 'Alarm') ? '' : arrayObject.label
-
-        setTimeout(() => {hourInput.focus();}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
+        alarmName.value = (arrayObject.label === 'Alarm') ? '' : arrayObject.label;
 
         addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
 
@@ -1371,8 +1367,6 @@ function renderTimer() {
     timerHourInput.value = '00';
     timerMinuteInput.value = '10';
     timerSecondInput.value = '00';
-
-    timerHourInput.focus();
   } else if (timer.state === 'play') {
     addTimerTime.style.display = 'none';
 
