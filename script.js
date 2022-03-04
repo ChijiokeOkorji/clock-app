@@ -726,7 +726,7 @@ function renderAlarm() {
 
     // addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
     // addAlarmLayer.style.bottom = 0;
-    body.style.overflowY = 'hidden';
+    // body.style.overflowY = 'hidden';
     addAlarmLayer.style.marginBottom = 0;
 
     // window.addEventListener('resize', addLayerResize);
@@ -744,7 +744,7 @@ function renderAlarm() {
 
     // addAlarmLayer.style.marginTop = '100vh';
     // addAlarmLayer.style.bottom = '-100%';
-    body.style.overflowY = 'auto';
+    // body.style.overflowY = 'auto';
 
     addAlarmLayer.style.marginBottom = '-100vh';
     layerView.style.backgroundColor = '#ff000000';
@@ -1008,7 +1008,7 @@ function renderAlarm() {
 
         // addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
         // addAlarmLayer.style.bottom = 0;
-        body.style.overflowY = 'hidden';
+        // body.style.overflowY = 'hidden';
 
         addAlarmLayer.style.marginBottom = 0;
 
