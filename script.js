@@ -11,7 +11,9 @@ function alertVibrationPattern() {
 
 window.addEventListener('load', function load() {
   window.removeEventListener('load', load, false);
-  body.classList.remove('preload');
+  setTimeout(() => {
+    body.classList.remove('preload');
+  }, 1000);
 },
 false);
 
@@ -390,7 +392,7 @@ function renderWorldClock() {
   <div id="clock-main" class="main">
     <div class="layer-view">
       <div id="manage-timezones-layer" class="layer-overlay">
-        <div class="layer-head">
+        <div id="timezone-layer-head" class="layer-head">
           <div class="layer-heading">My Timezones</div>
   
           <div id="clock-done-btn" class="heading-btn btn-right">DONE</div>
@@ -554,10 +556,6 @@ function renderWorldClock() {
   editBtn.addEventListener('click', () => {
     manageLayer.scrollTop = 0;
 
-    // manageLayer.style.marginTop = 0;
-    // function scrollIncrease() {
-    //   let initialPosition = 0    }
-    // manageLayer.style.bottom = 0;
     manageLayer.style.marginBottom = 0;
 
     layerView.style.cssText = 'z-index: 99; background-color: #0000001a;';
@@ -567,6 +565,7 @@ function renderWorldClock() {
       layerHead.style.position = 'fixed';
       layerHead.style.margin = `0 ${(innerWidth - manageLayer.offsetWidth) / 2}px`;
       layerContent.style.marginTop = `${layerHead.offsetHeight}px`;
+      manageLayer.style.overflowY = 'scroll';
     }, parseFloat(getComputedStyle(manageLayer)['transition-duration']) * 1000);
   });
 
@@ -597,7 +596,7 @@ function renderAlarm() {
   <div id="alarm-main" class="main">
     <div class="layer-view">
       <div id="add-alarm-layer" class="layer-overlay alarm-layer">
-        <div class="layer-head edit-head">
+        <div class="layer-head">
           <div id="add-alarm-cancel" class="heading-btn btn-left">CANCEL</div>
   
           <div class="layer-heading">Add Alarm</div>
@@ -709,10 +708,9 @@ function renderAlarm() {
   
   editExist();
 
-  function addLayerResize() {
-    // remove
-    addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
-  }
+  // function addLayerResize() {
+  //   addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
+  // }
 
   addAlarmBtn.addEventListener('click', () => {
     repeatCheckboxes.forEach((item) => {
@@ -1041,7 +1039,7 @@ function renderAlarm() {
 
     updateSavedAlarmsData();
 
-    window.removeEventListener('resize', addLayerResize);
+    // window.removeEventListener('resize', addLayerResize);
 
     renderAlarm();
   }
