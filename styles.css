@@ -95,8 +95,7 @@ a:focus, button:focus, input:focus, textarea:focus {
     background-color: #a1c6f7;
     overflow-y: scroll;
     border-radius: 1rem 1rem 0 0;
-    /* transition: margin-bottom 0.3s ease 0s; */
-    transition: margin-bottom 1.5s ease 0s;
+    transition: margin-bottom 0.3s ease 0s;
     box-shadow: 
     0 11px 15px #00000033,
     0 24px 38px #00000024,
@@ -145,12 +144,6 @@ a:focus, button:focus, input:focus, textarea:focus {
 .layer-content {
     background-color: #a1c6f7;
 }
-
-/* .edit-head {
-    position: relative;
-    box-shadow: none;
-    border: none;
-} */
 
 #alarm-add-btn {
     filter: invert(36%) sepia(64%) saturate(7316%) hue-rotate(209deg) brightness(105%) contrast(84%);

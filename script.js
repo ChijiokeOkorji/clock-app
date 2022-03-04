@@ -561,7 +561,6 @@ function renderWorldClock() {
     layerView.style.cssText = 'z-index: 99; background-color: #0000001a;';
 
     setTimeout(() => {
-      // review
       layerHead.style.position = 'fixed';
       layerHead.style.margin = `0 ${(innerWidth - manageLayer.offsetWidth) / 2}px`;
       layerContent.style.marginTop = `${layerHead.offsetHeight}px`;
@@ -570,8 +569,6 @@ function renderWorldClock() {
   });
 
   doneBtn.addEventListener('click', () => {
-    // manageLayer.style.marginTop = '100vh';
-    // manageLayer.style.bottom = '-100%';
     manageLayer.style.marginBottom = '-100vh';
 
     layerView.style.backgroundColor = '#ff000000';
@@ -708,10 +705,6 @@ function renderAlarm() {
   
   editExist();
 
-  // function addLayerResize() {
-  //   addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
-  // }
-
   addAlarmBtn.addEventListener('click', () => {
     repeatCheckboxes.forEach((item) => {
       let labelBox = document.querySelector(`[for=${item.id}]`);
@@ -722,12 +715,7 @@ function renderAlarm() {
       }
     });
 
-    // addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
-    // addAlarmLayer.style.bottom = 0;
-    // body.style.overflowY = 'hidden';
     addAlarmLayer.style.marginBottom = 0;
-
-    // window.addEventListener('resize', addLayerResize);
 
     layerView.style.cssText = 'z-index: 99; background-color: #0000001a;';
     hoursValue = '00';
@@ -738,12 +726,6 @@ function renderAlarm() {
   });
 
   function removeAddAlarmLayer() {
-    // window.removeEventListener('resize', addLayerResize);
-
-    // addAlarmLayer.style.marginTop = '100vh';
-    // addAlarmLayer.style.bottom = '-100%';
-    // body.style.overflowY = 'auto';
-
     addAlarmLayer.style.marginBottom = '-100vh';
     layerView.style.backgroundColor = '#ff000000';
     setTimeout(() => {layerView.style.zIndex = 0;}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
@@ -1004,13 +986,7 @@ function renderAlarm() {
 
         alarmName.value = (arrayObject.label === 'Alarm') ? '' : arrayObject.label;
 
-        // addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
-        // addAlarmLayer.style.bottom = 0;
-        // body.style.overflowY = 'hidden';
-
         addAlarmLayer.style.marginBottom = 0;
-
-        // window.addEventListener('resize', addLayerResize);
 
         layerView.style.cssText = 'z-index: 99; background-color: #0000001a;';
       });
@@ -1038,8 +1014,6 @@ function renderAlarm() {
     alarmName.value = (alarmName.value) ? alarmName.value : 'Alarm';
 
     updateSavedAlarmsData();
-
-    // window.removeEventListener('resize', addLayerResize);
 
     renderAlarm();
   }
