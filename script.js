@@ -573,7 +573,7 @@ function renderWorldClock() {
   doneBtn.addEventListener('click', () => {
     // manageLayer.style.marginTop = '100vh';
     // manageLayer.style.bottom = '-100%';
-    manageLayer.style.marginBottom = '-100%';
+    manageLayer.style.marginBottom = '-100vh';
 
     layerView.style.backgroundColor = '#ff000000';
 
@@ -746,7 +746,7 @@ function renderAlarm() {
     // addAlarmLayer.style.bottom = '-100%';
     body.style.overflowY = 'auto';
 
-    addAlarmLayer.style.marginBottom = '-100%';
+    addAlarmLayer.style.marginBottom = '-100vh';
     layerView.style.backgroundColor = '#ff000000';
     setTimeout(() => {layerView.style.zIndex = 0;}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
   }
@@ -1009,7 +1009,7 @@ function renderAlarm() {
         // addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
         // addAlarmLayer.style.bottom = 0;
         body.style.overflowY = 'hidden';
-        
+
         addAlarmLayer.style.marginBottom = 0;
 
         // window.addEventListener('resize', addLayerResize);
