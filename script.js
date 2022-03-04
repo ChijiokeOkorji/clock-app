@@ -2,18 +2,18 @@
 
 let alarmSound, timerSound, mainContentArea, body, pageId, timeZoneRefreshFrame, layerView, alarmAlertLayer, removeAlarmAlert, timerAlertLayer, removeTimerAlert, vibrationInterval;
 
+mainContentArea = document.querySelector('#main-content-area');
+body = document.querySelector('body');
+
 function alertVibrationPattern() {
   navigator.vibrate([1000, 1000]);
 }
 
 window.addEventListener('load', function load() {
   window.removeEventListener('load', load, false);
-  document.body.classList.remove('preload');
+  body.classList.remove('preload');
 },
 false);
-
-mainContentArea = document.querySelector('#main-content-area');
-body = document.querySelector('body');
 
 const timezones = (sessionStorage.getItem('timezones')) ?
 JSON.parse(sessionStorage.getItem('timezones')) :
@@ -573,7 +573,7 @@ function renderWorldClock() {
   doneBtn.addEventListener('click', () => {
     // manageLayer.style.marginTop = '100vh';
     // manageLayer.style.bottom = '-100%';
-    manageLayer.style.marginBottom = '-100vh';
+    manageLayer.style.marginBottom = '-100%';
 
     layerView.style.backgroundColor = '#ff000000';
 
@@ -710,6 +710,7 @@ function renderAlarm() {
   editExist();
 
   function addLayerResize() {
+    // remove
     addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
   }
 
@@ -725,6 +726,7 @@ function renderAlarm() {
 
     // addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
     // addAlarmLayer.style.bottom = 0;
+    body.style.overflowY = 'hidden';
     addAlarmLayer.style.marginBottom = 0;
 
     // window.addEventListener('resize', addLayerResize);
@@ -738,11 +740,13 @@ function renderAlarm() {
   });
 
   function removeAddAlarmLayer() {
-    window.removeEventListener('resize', addLayerResize);
+    // window.removeEventListener('resize', addLayerResize);
 
     // addAlarmLayer.style.marginTop = '100vh';
     // addAlarmLayer.style.bottom = '-100%';
-    addAlarmLayer.style.marginBottom = '-100vh';
+    body.style.overflowY = 'auto';
+
+    addAlarmLayer.style.marginBottom = '-100%';
     layerView.style.backgroundColor = '#ff000000';
     setTimeout(() => {layerView.style.zIndex = 0;}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
   }
@@ -1004,6 +1008,8 @@ function renderAlarm() {
 
         // addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
         // addAlarmLayer.style.bottom = 0;
+        body.style.overflowY = 'hidden';
+        
         addAlarmLayer.style.marginBottom = 0;
 
         // window.addEventListener('resize', addLayerResize);
