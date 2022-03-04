@@ -6,9 +6,11 @@ function alertVibrationPattern() {
   navigator.vibrate([1000, 1000]);
 }
 
-window.addEventListener('load', () => {
-  document.querySelector('.preload').classList.remove('preload');
-});
+window.addEventListener('load', function load() {
+  window.removeEventListener('load', load, false);
+  document.body.classList.remove('preload');
+},
+false);
 
 mainContentArea = document.querySelector('#main-content-area');
 body = document.querySelector('body');
@@ -552,10 +554,16 @@ function renderWorldClock() {
   editBtn.addEventListener('click', () => {
     manageLayer.scrollTop = 0;
 
-    manageLayer.style.marginTop = 0;
+    // manageLayer.style.marginTop = 0;
+    // function scrollIncrease() {
+    //   let initialPosition = 0    }
+    // manageLayer.style.bottom = 0;
+    manageLayer.style.marginBottom = 0;
+
     layerView.style.cssText = 'z-index: 99; background-color: #0000001a;';
 
     setTimeout(() => {
+      // review
       layerHead.style.position = 'fixed';
       layerHead.style.margin = `0 ${(innerWidth - manageLayer.offsetWidth) / 2}px`;
       layerContent.style.marginTop = `${layerHead.offsetHeight}px`;
@@ -563,7 +571,10 @@ function renderWorldClock() {
   });
 
   doneBtn.addEventListener('click', () => {
-    manageLayer.style.marginTop = '100vh';
+    // manageLayer.style.marginTop = '100vh';
+    // manageLayer.style.bottom = '-100%';
+    manageLayer.style.marginBottom = '-100vh';
+
     layerView.style.backgroundColor = '#ff000000';
 
     layerHead.style.position = 'sticky';
@@ -712,9 +723,11 @@ function renderAlarm() {
       }
     });
 
-    addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
+    // addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
+    // addAlarmLayer.style.bottom = 0;
+    addAlarmLayer.style.marginBottom = 0;
 
-    window.addEventListener('resize', addLayerResize);
+    // window.addEventListener('resize', addLayerResize);
 
     layerView.style.cssText = 'z-index: 99; background-color: #0000001a;';
     hoursValue = '00';
@@ -727,7 +740,9 @@ function renderAlarm() {
   function removeAddAlarmLayer() {
     window.removeEventListener('resize', addLayerResize);
 
-    addAlarmLayer.style.marginTop = '100vh';
+    // addAlarmLayer.style.marginTop = '100vh';
+    // addAlarmLayer.style.bottom = '-100%';
+    addAlarmLayer.style.marginBottom = '-100vh';
     layerView.style.backgroundColor = '#ff000000';
     setTimeout(() => {layerView.style.zIndex = 0;}, parseFloat(getComputedStyle(addAlarmLayer)['transition-duration']) * 1000);
   }
@@ -987,9 +1002,11 @@ function renderAlarm() {
 
         alarmName.value = (arrayObject.label === 'Alarm') ? '' : arrayObject.label;
 
-        addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
+        // addAlarmLayer.style.marginTop = `${innerHeight - addAlarmLayer.offsetHeight}px`;
+        // addAlarmLayer.style.bottom = 0;
+        addAlarmLayer.style.marginBottom = 0;
 
-        window.addEventListener('resize', addLayerResize);
+        // window.addEventListener('resize', addLayerResize);
 
         layerView.style.cssText = 'z-index: 99; background-color: #0000001a;';
       });

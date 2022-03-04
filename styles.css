@@ -76,7 +76,8 @@ a:focus, button:focus, input:focus, textarea:focus {
     width: 100%;
     height: 100%;
     position: fixed;
-    top: 0;
+    /* top: 0; */
+    bottom: 0;
     left: 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -86,15 +87,20 @@ a:focus, button:focus, input:focus, textarea:focus {
 
 .layer-overlay {
     grid-column: 1/-1;
-    margin-top: 100vh;
+    /* margin-top: 100vh; */
     padding: 0 1rem 1rem;
     position: absolute;
+    /* added below */
+    bottom: 0;
+    margin-bottom: -100vh;
+    /* remove above */
     width: 100%;
     height: 100%;
     background-color: #a1c6f7;
     overflow-y: scroll;
     border-radius: 2rem 2rem 0 0;
-    transition: margin 0.3s ease 0s;
+    transition: margin-bottom 0.3s ease 0s;
+    /* transition: top 0.3s ease 0s; */
     box-shadow: 
     0 11px 15px #00000033,
     0 24px 38px #00000024,
@@ -138,6 +144,8 @@ a:focus, button:focus, input:focus, textarea:focus {
     box-shadow: none;
     border: none;
 }
+
+.edit-head .add-alarm-done ~ 
 
 #alarm-add-btn {
     filter: invert(36%) sepia(64%) saturate(7316%) hue-rotate(209deg) brightness(105%) contrast(84%);
@@ -278,6 +286,7 @@ button {
     0 2px 1px #00000033,
     0 1px 1px #00000024,
     0 1px 3px #0000001f;
+    cursor: default;
 }
 
 .save-entry {
